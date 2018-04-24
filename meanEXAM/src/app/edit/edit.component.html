@@ -1,0 +1,32 @@
+<a [routerLink]="['']">Home</a>
+<h3>Edit this pet: {{ editPet.name }}</h3>
+<p> {{ pet | json }} </p>
+<div *ngIf="error">
+<p *ngIf="(error.name)">{{error.name.message}}</p>
+
+<p *ngIf="(error.type)">{{error.type.message}}</p>
+
+<p *ngIf="(error.desc)">{{error.desc.message}}</p>   
+</div>
+
+<form (submit)="savePet()">
+
+  <p>Pet name:</p>
+  <input type="text" name="editPet.name" [(ngModel)]="editPet.name" />
+  <p>Pet type:</p>
+  <input type="text" name="editPet.type" [(ngModel)]="editPet.type" />
+  <p>Description:</p>
+  <input type="text" name="editPet.desc" [(ngModel)]="editPet.desc" />
+  <hr>
+
+  <p>Skills(Optional):</p>
+  <p>Skill 1:</p>
+  <input type="text" name="editPet.skill1" [(ngModel)]="editPet.skill1" />
+  <p>Skill 2:</p>
+  <input type="text" name="editPet.skill2" [(ngModel)]="editPet.skill2" />
+  <p>Skill 3:</p>
+  <input type="text" name="editPet.skill3" [(ngModel)]="editPet.skill3" />
+
+  <input type="submit" value="Edit pet"/>
+</form>
+<button [routerLink]="['']">Cancel</button>
