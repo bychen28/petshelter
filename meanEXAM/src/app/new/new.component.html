@@ -1,8 +1,12 @@
 <a [routerLink]="['']">Home</a>
 <h3>Know of a pet needing a home?</h3>
+
 <p> {{ pet | json }} </p>
 
-  <p *ngIf="(error)">{{error.message}}</p>
+ <p *ngIf="(error)">{{error.message}}</p>
+ <p *ngIf="(error)">{{error.errmsg}}</p>
+
+ 
 <form (submit)="onSubmit()">
   
   <p>Pet name:</p>

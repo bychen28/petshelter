@@ -28,14 +28,19 @@ export class NewComponent implements OnInit {
   }
 
   onSubmit(){
+    console.log("in submit")
     let obs = this._httpService.createPet(this.newPet)
-    console.log(this.newPet)
     obs.subscribe(data =>{
-      console.log(data)
-      if((data as any).message =="Error"){
-       this.error = data['error']
-       
-     }
+      console.log("within subscribe")
+      if((data as any).message == "Error"){
+        console.log("within error")
+        console.log(this.error)
+        this.error = data['error']
+        console.log(this.error)
+       }  
+       else if ((data as any).message == "Unique Error"){
+        this.error = data['error']
+      }
      else{
        this._router.navigate([''])
      }

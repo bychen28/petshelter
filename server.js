@@ -17,9 +17,9 @@ app.use(express.static(path.join(__dirname,'/meanEXAM/dist')));
 
 // This is how we connect to the mongodb database using mongoose -- "basic_mongoose" is the name of
 //   our db in mongodb -- this should match the name of the db you are going to use for your project.
-mongoose.connect('mongodb://localhost/beltexam');
+mongoose.connect('mongodb://localhost/beltexam2');
 var ShelterSchema = new mongoose.Schema({
-        name: {type: String, required: [true,"Name Must be Filled Out"], unique: true["Name has been taken"],minlength: 3},
+        name: {type: String, required: [true,"Name Must be Filled Out"], unique: [true,"Name has been taken"],minlength: 3},
         type: {type: String, required: [true,"Type Must be Filled Out"], minlength: 3},
         desc: {type: String, required: [true,"Description Must be Filled Out"], minlength: 3},
         skill1: {type: String,default: ""},
@@ -37,6 +37,7 @@ var ShelterSchema = new mongoose.Schema({
 
 app.get('/home',function(req,res){
     console.log("Am i Here")
+    //Pet.find({}).sort('parameter').exec(function())
     Pet.find({},function(err,pets){
         if(err){
             res.json({message: "Error",Reason: "No Pets Were Found"})
@@ -56,15 +57,19 @@ app.post('/pets/new',function(req,res){
     pet.skill2 = req.body.skill2;
     pet.skill3 = req.body.skill3;
     pet.like = 0
-    console.log(req.body)
+    
     pet.save(function(err){
-        console.log(err)
+        console.log("Qwerqwerqwerqwe", err)
        if(err){
-           console.log(err,pet.errors)
+           if(err.name == "BulkWriteError") {
+               console.log(this.error)
+            res.json({message: "Unique Error", error: err})
+           }
+          else{
             res.json({message: "Error",error: err})
+          }
        }
        else{
-           
            res.json({message:"Added Pet", data: pet})
        }
     })
